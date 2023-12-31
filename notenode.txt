@@ -1,0 +1,280 @@
+node 
+-------------
+not a programmin langauge 
+-its a runtimr enviornmant for js to run outside the browser,have js li braires
+-EXTENSION - .js
+
+
+features 
+------
+-its extremely fast
+       php/.asp.net ------>request------>resolve------->response send ------> accept new request
+       node ------> first accept ------>send for resolve------->ready to accept second request
+
+-asynchronus Programming
+-single threaded
+-Highly Scalabale
+-open source -avilable to all 
+----------------------------------------
+firebase
+--------
+what is node js module 
+-----------------------
+-Each file / js library inside a node js 
+
+ - import - require('module name')
+- export  - module.exports 
+          - exports   // if only a component is needed
+       
+Types of modules 
+------------------
+ -custom modules
+ -Builtin modules(native)
+
+ Builtin modules
+ ------------------
+ 1.File systems  
+     -   it allows you to work with the files 
+
+     -syntax
+     -------
+       import -> keyword variable -require('fs')
+
+     -common uses 
+       -----------
+       1.read files - fs.readfile()
+       2.create files -fs.open()
+       3.update files - fs.writeFile()
+       4.delete files - fs.unlink()
+       5.rename files - fs.rename()
+ ----------------
+ 2. HTTP modules
+ -------------------
+ allows node.js to transfer data over http 
+       -keyword variable =require('http')
+it can create http server that listen to server port and gives  a response back to client
+       
+       -createServer()
+       -listen(portnumber)
+----------------------------
+3.https modules-
+4.event modules- to generte events 
+       -class - eventEmitter() -object 
+       -object.on()  - evenet create 
+       -object.emit()  - to execeute
+
+
+Backend conecpts 
+-------------------
+-client -server architecture - sending request and request between two application
+-api - application  programing interface
+-Restful api /architecture -http request / json
+-CRUD -CREATE READ UPDATE DELETE 
+-CORS   - Cross origin resource sharing
+
+
+
+steps to create server
+------------------------
+1. create a folder  for server
+2. install json server  - npm configureation ,npm init -y
+       -package .json -main file is the only file which is bein excuted
+ 3.update package.json      -under scripts :start:'file name'
+4.install
+       - express.js -framework of node.js -  command - npm i express
+       -cors - command - npm i cors
+       -dotenv -its a zero dependecy module that loads enviornment variable from .env files to process .env
+        enviornment variable it provides information about the enviornment in which the process is running 
+        npm i dotenv
+       - to install all - npm i express cors dotenv
+
+5. create .env  file
+6.create .gitignore file
+7.create index.js file
+
+//nodemon to solve autorecompiltion issue
+
+
+MVC ARCHITRCURE 
+------------------
+
+Model -  View - Control 
+
+                          Routing
+               /               |
+     User Request         controller                    Database
+              \            /             \       /
+              View                      Model
+
+              all linked
+
+
+              view -frontend ,sends the request 
+              user request - get put post delete
+              Routing - set the path to resolve the request(ee pathuklae paryuna sthalm ane routing)
+              Controller -how to resolve is been carried out by controller (set the logic to resolve the request)
+              Model- structure in which the data is being stored
+              Database - used to store the data
+
+       MONGODB 
+       ------
+       used to store data
+
+       command
+       ---------
+       _MONGOSH -mongodb shell 
+       1.show database - get all database inside your mongodb
+       2.use db name - to go to move into  particular db
+       3. show collection - to get all collections inside a database
+       4.db.collectionanme.find() - to get all document inside a collection
+       5.db.collectionname.findone(condition)- to get only  a particular no of documents
+       6.db.collectionname.find().limit(num) - to get the limit
+       7.db.collectionnamae.find().sort({username(key):1}) - ascending order
+       8.db.collectionnamae.find().sort({username:-1}) - descending order
+       9.db.users.insertOne({username:'Jacob',email:'jacob@gmail.com',password:'jacob123',profile:'',github:'',lindin:''})
+       10.db.users.insertMany([{username:'akash',email:'ak@gmail.com',password:'ak123',profile:'',github:'',lindin:''},{username:'hari',email:'hari@gmail.com',password:'h123',profile:'',github:'',lindin:''}])
+
+       11.mongo db i unstructred so we can add any structure of data whereas ,possible onle in nosequel 
+       no possible in sequl databse like sql
+
+      12. query Based- 
+              - db.users.find({key:{lt:25}}) -less than
+               - db.users.find({key:{lte:25}}) -less than or equal to 
+                - db.users.find({key:{gt:25}}) -greater than
+                 - db.users.find({key:{gte:25}}) -greater than or equal to `
+
+                 -db.users.find({$or:[{age:{$gt:20}},{age:{$gte:30}}]}) anyone condition
+                 -db.users.find({$and:[{age:{$gt:20}},{age:{$lte:30}}]}) both condition
+                 -db.users.find({uname:{$exists:true}}) - returns all documnets having the key
+                 -db.users.find({uname:{$exists:false}}) -retunrs all documents which do not have the key
+                 -db.users.find({$expr:{$gt:['$debt','$balance']}}) - to compare two keys within the document ($expr) here debt is big balance smaller
+                  -db.users.find({$expr:{$lt:['$debt','$balance']}})   here db small  balance big
+                  limit
+
+      13. Update 
+       syntax - db.collectionname.updateOne({condtion to uniquely indentify the document },{ opertion,{value to do opettion}    update the statemnt})
+             - db.users.updateOne({uname:'kyle'},{$inc:{age:-3}}) -decrement
+             - db.users.updateOne({uname:'kyle'},{$inc:{age:3}}) - increment
+             -db.users.updateOne({uname:'kyle'},{$push:{hobbies:'coding'}}) - to add the value to array
+
+       14.db.users.countDocuments() - to get the total count of the  dcoument
+       15.db.users.deleteOne({username:'hari'})-delte one 
+       16 db.users.deleteMany({uname:{$exists:true}})- delete  multiple value
+
+17 AGgregation opertions process multiple documents and return compuuted results
+       -Group values from multiple documnets together 
+
+       -syntax
+
+       {
+              $lookup:
+              {
+                     from: <collection to join>,
+                     localField: <field from the input documents>,
+                     foreignField: <field from the documents of the "from" collection>,
+                     as: <output array field>
+              }
+       }
+
+       db.users.aggregate({$lookup : {from:'projects',localField:'_id',foreignField:'userid',as:'userProjects'}})
+
+
+       Mongodb atlas 
+       -------------
+       1.create new project 
+       2.give name to project and click next
+       3.ownership page - click next
+       4.click databse in the side bar.then click build a datasbe button
+       5.choose free optio n and click next
+       6. update the password make it simple avoid special harecters
+       7.create user finsih and close
+       8.again lcick the database
+       9.click on browser collection
+       10.click add my own data 
+       11.add databse name and collection name
+       12.click netwrok acess 
+       13.click on allow acess from everyone so that anyone can acess the data and click confirm
+
+       14.copy the connection string and paste it in .env file of the project
+       15.put the password instaed of <password> and put the database name before the ?
+
+       mongoose
+       ---------
+       its a node js library  used to connect server with the mongodb
+       -install npm i mongoose
+       -import mongoose in the server.js file
+       -acess connection string of mongo db from process.env file 
+       -connect server/node.js with database/mongodb using conecct function in mongoose -returns a promise 
+       -import connection.js file in index.js inorder to execute it.
+
+       modal 
+       -----
+       used to create a structure to the collection of database
+       -modal method in mongoose is used to create modal
+       -inorder to create schema use schema class in mongoose     
+       - inside schema we can use validtor -intsall -npm i validtor  
+
+
+
+       JWT
+       ----
+       -json web token
+       -it defines a compact and self contained way for securly transmitting information between parties as json
+       object
+       npm i jsonwebtoken
+
+
+
+Session storage 
+---------------
+data in session storage is removed when the tab/sesstion is closed,it is as same as local storage
+
+URL 
+-its a predefined method in js
+-it has a fucntion  create object url fucntion can covert a file into a url
+
+
+Midleware
+---------
+middle ware have the potential to control the request response cycle 
+1.application middleware -it affects the entire projects (entire requests) 
+2.router middleware - it only affetcs the particular path
+
+iy has 3 arguments - req,res,next
+next-what to next
+
+
+jwtverify
+----------
+after verifying in a jwt token we get an object of user id and iat -additional token
+we need to compare that user id with our data base if it matches then let him go otherwise send back unauthorized access
+
+
+MULTER 
+-----------
+multer is a node.js middleware for handling multipart/form-data ,which is primarily used for uploading files
+it can only process multipart/form-data 
+it adds two contents 
+1.body object    -it contains values of text field 
+2.file object /file    -it contins files uploaded from the form
+
+
+context-api
+
+is another mode data sharing
+redux is another library but this is  inbuilt process 
+
+1.create a folder namee context then 
+2.create a jsx file name conetxtshare 
+3. then laod basic structure
+4.then cretae a context which is above context using create conetxt then export
+
+
+childeren is predefined prop which is used ti share data between all componnets
+
+1.place the children inside th context api selecter the provide procvder 
+2.then value attribute isadded  for dtat to be shared
+
+provider-provide the data to the componnets
+children -provide he dat to evry componnent
+value -data to be provided
